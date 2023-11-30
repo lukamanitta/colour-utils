@@ -1,65 +1,58 @@
-#[derive(Clone, Debug, PartialEq)]
-pub struct RGB {
-    r: u8,
-    g: u8,
-    b: u8,
-}
+pub mod formats;
+pub mod conversions;
+pub mod errors;
+
+use formats::{RGB, HSV, Hex};
+use errors::InvalidColourFormat;
 
 pub struct Colour {
-    _rgb: RGB,
-    _hex: String,
+    rgb: RGB,
+    hsv: HSV,
+    hex: Hex,
 }
 
+// For the sake of better code while I learn rust, I'm generating all of the formats in the
+// constructor. A better use of memory would be to generate & store other formats on-demand
 impl Colour {
-    pub fn from_hex(hex: &str) -> Colour {
-        // if there is a leading #, remove it
-        let hex = if hex.starts_with('#') {
-            &hex[1..]
-        } else {
-            hex
-        };
-
-        Colour {
-            _rgb: RGB { 
-                r: u8::from_str_radix(&hex[0..2], 16).unwrap(),
-                g: u8::from_str_radix(&hex[2..4], 16).unwrap(),
-                b: u8::from_str_radix(&hex[4..6], 16).unwrap(),
-            },
-            _hex: String::from(hex),
-        }
+    pub fn new_from_rgb(r: u8, g: u8, b: u8) -> Result<Colour, InvalidColourFormat> {
+        let rgb = RGB::new(r, g, b)?;
+        
+        Ok(Colour {
+            rgb: rgb.clone(),
+            hsv: conversions::rgb_to_hsv(&rgb)?,
+            hex: conversions::rgb_to_hex(&rgb)?,
+        })
     }
 
-    pub fn from_rgb(r: u8, g: u8, b: u8) -> Colour {
-        Colour {
-            _rgb: RGB { r, g, b },
-            _hex: format!("{:02x}{:02x}{:02x}", r, g, b),
-        }
+    pub fn new_from_hsv(h: f32, s: f32, v: f32) -> Result<Colour, InvalidColourFormat> {
+        let hsv = HSV::new(h, s, v)?;
+
+        Ok(Colour {
+            rgb: conversions::hsv_to_rgb(&hsv)?,
+            hsv: hsv.clone(),
+            hex: conversions::hsv_to_hex(&hsv)?,
+        })
     }
 
-    pub fn to_hex(&self) -> String {
-        self._hex.clone()
+    pub fn new_from_hex(hex: &str) -> Result<Colour, InvalidColourFormat> {
+        let hex = Hex::new(hex)?;
+
+        Ok(Colour {
+            rgb: conversions::hex_to_rgb(&hex)?,
+            hsv: conversions::hex_to_hsv(&hex)?,
+            hex: hex.clone(),
+        })
     }
 
-    pub fn to_rgb(&self) -> RGB {
-        self._rgb.clone()
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn from_hex_works() {
-        let colour = Colour::from_hex("ff00ff");
-        assert_eq!(colour.to_hex(), "ff00ff");
-        assert_eq!(colour.to_rgb(), RGB { r: 255, g: 0, b: 255 });
+    pub fn rgb(&self) -> &RGB {
+        &self.rgb
     }
 
-    #[test]
-    fn from_hex_with_hashtag_works() {
-        let colour = Colour::from_hex("#ff00ff");
-        assert_eq!(colour.to_hex(), "ff00ff");
-        assert_eq!(colour.to_rgb(), RGB { r: 255, g: 0, b: 255 });
+    pub fn hsv(&self) -> &HSV {
+        &self.hsv
+    }
+
+    pub fn hex(&self) -> &Hex {
+        &self.hex
     }
 }
