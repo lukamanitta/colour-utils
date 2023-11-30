@@ -12,8 +12,6 @@ pub struct Colour {
     hex: Hex,
 }
 
-// For the sake of better code while I learn rust, I'm generating all of the formats in the
-// constructor. A better use of memory would be to generate & store other formats on-demand
 impl Colour {
     pub fn new_from_rgb(r: u8, g: u8, b: u8) -> Result<Colour, InvalidColourFormat> {
         let rgb = RGB::new(r, g, b)?;

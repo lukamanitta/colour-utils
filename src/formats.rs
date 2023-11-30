@@ -42,7 +42,6 @@ impl RGB {
     }
 }
 
-// TODO: can h be int instead?
 #[derive(Clone, Debug, PartialEq)]
 pub struct HSV {
     h: f32,
@@ -61,7 +60,7 @@ impl HSV {
         }
     }
     
-    // TODO: need to know more about commonly expected hsv formats for these
+    // TODO: need to know more about commonly expected hsv formats to make these useful
     pub fn to_string(&self) -> String {
         format!("hsv({}, {}, {})", self.h, self.s, self.v)
     }
@@ -109,7 +108,6 @@ impl Hex {
         let g_slice: String = unhashed_str[2..4].to_string();
         let b_slice: String = unhashed_str[4..6].to_string();
 
-        // TODO: check for valid hex characters. Maybe this does it already?
         let r = u8::from_str_radix(&r_slice, 16)?;
         let g = u8::from_str_radix(&g_slice, 16)?;
         let b = u8::from_str_radix(&b_slice, 16)?;
