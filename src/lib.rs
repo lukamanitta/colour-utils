@@ -1,6 +1,7 @@
 pub mod formats;
 pub mod conversions;
 pub mod errors;
+pub mod operations;
 
 use formats::{RGB, HSV, Hex};
 use errors::InvalidColourFormat;
