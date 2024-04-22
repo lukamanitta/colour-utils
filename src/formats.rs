@@ -127,12 +127,12 @@ impl Hex {
         }
     }
 
-    pub fn to_string(&self) -> &str {
-        &self.unhashed_str
+    pub fn to_string(&self) -> String {
+        format!("{}", self.unhashed_str)
     }
 
-    pub fn to_string_with_hash(&self) -> &str {
-        &self.hashed_str
+    pub fn to_string_with_hash(&self) -> String {
+        format!("{}", self.hashed_str)
     }
 
     pub fn r(&self) -> &String {
