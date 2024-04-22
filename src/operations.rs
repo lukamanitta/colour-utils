@@ -53,7 +53,7 @@ pub fn blend(colour1: &Colour, colour2: &Colour, ratio: f32) -> Result<Colour, I
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    // use super::*;
 
     #[test]
     pub fn it_works() {

@@ -6,6 +6,7 @@ use std::num;
 pub enum InvalidColourFormat {
     ArgOutOfBoundsError,
     FailedConversionError,
+    FormatNotRecognisedError,
     HexParseError(num::ParseIntError),
 }
 

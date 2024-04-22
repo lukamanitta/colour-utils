@@ -50,8 +50,8 @@ pub struct HSV {
 }
 
 impl HSV {
-    pub fn new(h: f32, s: f32, v: f32) -> Result<Self, InvalidColourFormat> { 
-        if !within_bounds(h, 0.0, 360.0) 
+    pub fn new(h: f32, s: f32, v: f32) -> Result<Self, InvalidColourFormat> {
+        if !within_bounds(h, 0.0, 360.0)
             || !within_bounds(s, 0.0, 100.0)
             || !within_bounds(v, 0.0, 100.0) {
             Err(InvalidColourFormat::ArgOutOfBoundsError)
@@ -59,7 +59,7 @@ impl HSV {
             Ok(Self { h, s, v })
         }
     }
-    
+
     // TODO: need to know more about commonly expected hsv formats to make these useful
     pub fn to_string(&self) -> String {
         format!("hsv({}, {}, {})", self.h, self.s, self.v)
@@ -150,7 +150,6 @@ impl Hex {
 
 #[cfg(test)]
 mod tests {
-    use core::num;
     use super::*;
 
     #[test]
@@ -202,7 +201,7 @@ mod tests {
     fn hex_new_works() {
         let hex = Hex::new("#ff00ff");
         assert_eq!(
-            hex, 
+            hex,
             Ok(Hex {
                 hashed_str: "#ff00ff".to_string(),
                 unhashed_str: "ff00ff".to_string(),
