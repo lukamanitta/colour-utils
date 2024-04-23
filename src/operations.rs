@@ -27,7 +27,7 @@ pub fn darken(colour: &Colour, multiplier: f32) -> Result<Colour, InvalidColourF
     multiply_brightness(colour, -multiplier)
 }
 
-pub fn invert_colour(colour: &Colour) -> Result<Colour, InvalidColourFormat> {
+pub fn invert(colour: &Colour) -> Result<Colour, InvalidColourFormat> {
     Colour::new_from_rgb(
         255 - *colour.rgb().r(),
         255 - *colour.rgb().g(),
