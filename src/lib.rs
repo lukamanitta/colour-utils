@@ -27,9 +27,12 @@ impl Colour {
         if rgb_regex.is_match(&string) {
             let captures = rgb_regex.captures(&string).unwrap();
 
-            let r = captures.get(1).unwrap().as_str().parse::<u8>()?;
-            let g = captures.get(2).unwrap().as_str().parse::<u8>()?;
-            let b = captures.get(3).unwrap().as_str().parse::<u8>()?;
+            let r = captures.get(1).unwrap().as_str().parse::<u8>()
+                .map_err(|_err| InvalidColourFormat::FormatNotRecognisedError)?;
+            let g = captures.get(2).unwrap().as_str().parse::<u8>()
+                .map_err(|_err| InvalidColourFormat::FormatNotRecognisedError)?;
+            let b = captures.get(3).unwrap().as_str().parse::<u8>()
+                .map_err(|_err| InvalidColourFormat::FormatNotRecognisedError)?;
             return Colour::new_from_rgb(r, g, b);
         }
 
